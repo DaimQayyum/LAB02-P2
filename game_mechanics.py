@@ -12,7 +12,7 @@ def welcome_message():
     Returns: None
     """
     #------------------------
-    # Add your code here
+    print('Welcome to the game')
     #------------------------
     raise NotImplementedError("This function is not implemented yet.")
     #------------------------
@@ -29,7 +29,11 @@ def choose_category(categories):
     - str: The chosen category.
     """
     #------------------------
-    # Add your code here
+    print('Choose a Category')
+    for i, category in enumerate(categories, i):
+        choice = int(input("Enter the number of your choice: "))
+    return categories[choice - 1]
+
     #------------------------
     raise NotImplementedError("This function is not implemented yet.")
     #------------------------
@@ -47,7 +51,7 @@ def display_score(score, round_number):
     Returns: None
     """
     #------------------------
-    # Add your code here
+    print(f"Round Number {round_number} and Current Score {score}")
     #------------------------
     raise NotImplementedError("This function is not implemented yet.")
     #------------------------
@@ -64,7 +68,7 @@ def game_over_message(final_score):
     Returns: None
     """
     #------------------------
-    # Add your code here
+    print(f'Game Over and your final score is {final_score}')
     #------------------------
     raise NotImplementedError("This function is not implemented yet.")
     #------------------------
@@ -81,7 +85,31 @@ def run_game_rounds(categories):
     Returns: None
     """
     #------------------------
-    # Add your code here
+    score = 0
+    incorrect_answers = 0
+    round_number = 1
+    
+    while round_number <= 5 and incorrect_answers < 3:
+        category = choose_category(categories)
+        question, correct_answer = get_question(category)
+        print(f"Question: {question}")
+        player_answer = input("Your answer: ")
+        
+        if validate_answer(player_answer, correct_answer):
+            print("Correct!")
+            score = update_score(score, True)
+        else:
+            print(f"Wrong! The correct answer was: {correct_answer}")
+            score = update_score(score, False)
+            incorrect_answers += 1
+        
+        display_score(score, round_number)
+        round_number = next_round(round_number)
+    
+    if incorrect_answers >= 3:
+        game_over_message(score)
+        restart_or_exit()
+
     #------------------------
     raise NotImplementedError("This function is not implemented yet.")
     #------------------------
@@ -100,7 +128,7 @@ def validate_answer(player_answer, correct_answer):
     - bool: True if the player's answer is correct, False otherwise.
     """
     #------------------------
-    # Add your code here
+    return player_answer.strip().lower() == correct_answer.strip().lower()
     #------------------------
     raise NotImplementedError("This function is not implemented yet.")
     #------------------------
@@ -119,7 +147,10 @@ def update_score(score, correct):
     - int: The updated score.
     """
     #------------------------
-    # Add your code here
+    if correct:
+        return score + 10
+    else:
+        return score
     #------------------------
     raise NotImplementedError("This function is not implemented yet.")
     #------------------------
@@ -137,7 +168,7 @@ def next_round(round_number):
     - int: The next round number.
     """
     #------------------------
-    # Add your code here
+    return round_number + 1
     #------------------------
     raise NotImplementedError("This function is not implemented yet.")
     #------------------------
@@ -155,7 +186,7 @@ def check_game_over(incorrect_answers):
     - bool: True if the game should be over, False otherwise.
     """
     #------------------------
-    # Add your code here
+    return incorrect_answers >= 3
     #------------------------
     raise NotImplementedError("This function is not implemented yet.")
     #------------------------
@@ -170,7 +201,11 @@ def restart_or_exit():
     Returns: None
     """
     #------------------------
-    # Add your code here
+    choice = input("Do you want to play again? (yes/no): ").strip().lower()
+    if choice == "yes":
+        main_game()
+    else:
+        print("Thanks for playing!")
     #------------------------
     raise NotImplementedError("This function is not implemented yet.")
     #------------------------
